@@ -14,14 +14,6 @@ export let meta = () => {
   }
 }
 
-// type safeUser = null | Omit<User, 'passwordHash'>
-
-// export let loader: LoaderFunction = async ({ request }) => {
-//   let data = await getUser(request)
-
-//   return data
-// }
-
 export default function App() {
   return (
     <Document>
@@ -35,17 +27,17 @@ function Document({ children }: { children: React.ReactNode }) {
   let isLoading = transition.state === 'loading'
 
   return (
-    <html className="dark:bg-gray-900" lang="en">
+    <html className="dark:bg-gray-900 min-h-full h-full" lang="en">
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width,initial-scale=1" />
         <Meta />
         <Links />
       </head>
-      <body className="dark:text-gray-300 text-sm">
+      <body className="dark:text-gray-300 min-h-full text-sm">
         {children}
         {isLoading ? (
-          <div className="fixed top-6 right-6">
+          <div className="fixed bottom-6 right-6">
             <Spinner />
           </div>
         ) : null}
@@ -56,60 +48,6 @@ function Document({ children }: { children: React.ReactNode }) {
     </html>
   )
 }
-
-// function Layout({ children }: { children: React.ReactNode }) {
-//   return (
-//     <div className="mx-auto py-24 max-w-xl">
-//       <main>{children}</main>
-//     </div>
-//   )
-// }
-
-// function Layout({ children }: { children: React.ReactNode }) {
-//   let user = useLoaderData<safeUser>()
-
-//   return (
-//     <div className="mx-auto py-24 max-w-xl">
-//       {!!user ? <Sidebar user={user} /> : <Header />}
-//       <main>{children}</main>
-//     </div>
-//   )
-// }
-
-// function Sidebar({ user }: { user: safeUser }) {
-//   return (
-//     <nav className="flex mb-12 space-x-6 text-gray-500">
-//       <NavLink className={({ isActive }) => (isActive ? 'dark:text-white text-black' : '')} to="/dashboard">
-//         {user?.username}
-//       </NavLink>
-//       <NavLink className={({ isActive }) => (isActive ? 'dark:text-white text-black' : '')} to="/recipes">
-//         Recipes
-//       </NavLink>
-//       <NavLink className={({ isActive }) => (isActive ? 'dark:text-white text-black' : '')} to="/collections">
-//         Collections
-//       </NavLink>
-//       <NavLink className={({ isActive }) => (isActive ? 'dark:text-white text-black' : '')} to="/friends">
-//         Friends
-//       </NavLink>
-//       <NavLink className={({ isActive }) => (isActive ? 'dark:text-white text-black' : '')} to="/settings">
-//         Settings
-//       </NavLink>
-//     </nav>
-//   )
-// }
-
-// function Header() {
-//   return (
-//     <nav className="flex mb-12 space-x-6 text-gray-500">
-//       <NavLink className={({ isActive }) => (isActive ? 'dark:text-white text-black' : '')} to="/">
-//         Cookbase
-//       </NavLink>
-//       <NavLink className={({ isActive }) => (isActive ? 'dark:text-white text-black' : '')} to="/login">
-//         Login
-//       </NavLink>
-//     </nav>
-//   )
-// }
 
 export function ErrorBoundary({ error }: { error: Error }) {
   return (
@@ -152,22 +90,13 @@ export function CatchBoundary() {
 
 export function Spinner() {
   return (
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 38 38" stroke="#fff">
-      <g fill="none" fillRule="evenodd">
-        <g transform="translate(1 1)" strokeWidth="2">
-          <circle strokeOpacity=".5" cx="18" cy="18" r="18" />
-          <path d="M36 18c0-9.94-8.06-18-18-18">
-            <animateTransform
-              attributeName="transform"
-              type="rotate"
-              from="0 18 18"
-              to="360 18 18"
-              dur="1s"
-              repeatCount="indefinite"
-            />
-          </path>
-        </g>
-      </g>
+    <svg className="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+      <path
+        className="opacity-75"
+        fill="currentColor"
+        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+      ></path>
     </svg>
   )
 }

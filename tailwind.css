@@ -3,15 +3,40 @@
 @tailwind utilities;
 
 @layer components {
-  html,
-  body {
-    min-height: 100%;
-    height: 100%;
+  h1,
+  h2,
+  h3,
+  h4,
+  h5 {
+    @apply font-medium text-black dark:text-white;
+    /* letter-spacing: -0.015em; */
+  }
+
+  a,
+  button {
+    @apply transition-colors;
+  }
+
+  input[type='email'],
+  input[type='number'],
+  input[type='search'],
+  input[type='tel'],
+  input[type='text'],
+  input[type='url'],
+  select:focus,
+  textarea {
+    @apply text-base transition-colors max-w-md dark:focus:border-indigo-500 rounded-md outline-none border dark:bg-gray-900 dark:border-gray-700 px-3 py-2;
   }
 }
 
 @layer components {
   .btn {
-    @apply px-4 py-2 bg-indigo-600 text-white rounded;
+    @apply px-4 py-2 bg-indigo-600 outline-none hover:bg-indigo-500 border border-indigo-500 text-white rounded-md;
+  }
+}
+
+@layer utilities {
+  .text-link {
+    @apply dark:text-indigo-400 text-indigo-600 dark:hover:text-indigo-300 hover:text-indigo-500;
   }
 }

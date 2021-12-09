@@ -11,15 +11,27 @@ datasource db {
 }
 
 model User {
-  id           String   @id @default(uuid())
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
-  username     String   @unique
+  id           String       @id @default(uuid())
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
+  username     String       @unique
   passwordHash String
   recipes      Recipe[]
+  collections  Collection[]
 }
 
 model Recipe {
+  id          String       @id @default(uuid())
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  title       String
+  description String
+  userId      String
+  user        User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  collections Collection[]
+}
+
+model Collection {
   id          String   @id @default(uuid())
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
@@ -27,4 +39,5 @@ model Recipe {
   description String
   userId      String
   user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  recipes     Recipe[]
 }

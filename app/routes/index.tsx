@@ -3,9 +3,7 @@ import { getUserId } from '~/utils/session.server'
 
 export let loader: LoaderFunction = async ({ request }) => {
   let user = await getUserId(request)
-
   if (user) return redirect('/recipes')
-
   return null
 }
 

@@ -1,10 +1,10 @@
-import { Link, ActionFunction, redirect, LoaderFunction } from 'remix'
+import { ActionFunction, redirect, LoaderFunction } from 'remix'
+import PageHeader from '~/components/PageHeader'
 import { db } from '~/utils/db.server'
-import { getUserId, requireAuth } from '~/utils/session.server'
+import { requireAuth } from '~/utils/session.server'
 
 export let loader: LoaderFunction = async ({ request }) => {
   await requireAuth(request)
-
   return null
 }
 
@@ -29,24 +29,24 @@ export let action: ActionFunction = async ({ request }) => {
 
 export default function NewRecipe() {
   return (
-    <main className="space-y-3">
-      <div>
-        <Link to="/recipes">← Back to recipes</Link>
+    <>
+      <PageHeader link="/recipes" title="New recipe"></PageHeader>
+      <div className="w-full max-w-6xl mx-auto px-8 py-12">
+        <h1 className="text-3xl">New recipe</h1>
+        <form className="mt-6 space-y-4" method="post">
+          <label className="flex flex-col space-y-1" htmlFor="title">
+            <span>Title</span>
+            <input className="border dark:bg-gray-900 dark:border-gray-700 p-2" type="text" name="title" />
+          </label>
+          <label className="flex flex-col space-y-1" htmlFor="description">
+            <span>Description</span>
+            <input className="border dark:bg-gray-900 dark:border-gray-700 p-2" type="text" name="description" />
+          </label>
+          <div>
+            <button type="submit">Add recipe</button>
+          </div>
+        </form>
       </div>
-      <h1 className="text-3xl">New recipe</h1>
-      <form className="mt-6 space-y-4" method="post">
-        <label className="flex flex-col space-y-1" htmlFor="title">
-          <span>Title</span>
-          <input className="border dark:bg-gray-900 dark:border-gray-700 p-2" type="text" name="title" />
-        </label>
-        <label className="flex flex-col space-y-1" htmlFor="description">
-          <span>Description</span>
-          <input className="border dark:bg-gray-900 dark:border-gray-700 p-2" type="text" name="description" />
-        </label>
-        <div>
-          <button type="submit">Add recipe</button>
-        </div>
-      </form>
-    </main>
+    </>
   )
 }
