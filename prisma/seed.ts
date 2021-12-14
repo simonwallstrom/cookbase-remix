@@ -4,7 +4,10 @@ let prisma = new PrismaClient()
 async function seed() {
   let user = await prisma.user.create({
     data: {
-      username: 'simon',
+      email: 'simon.wallstrom@gmail.com',
+      username: 'simonwallstrom',
+      firstName: 'Simon',
+      lastName: 'Wallström',
       passwordHash: '$2a$10$w05ZeYZcBmsy/IQNSNeZZODTXESdVnQ4jgux5YkQbyG8gruPazuX',
     },
   })

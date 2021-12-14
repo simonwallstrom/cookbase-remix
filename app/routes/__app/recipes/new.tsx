@@ -21,7 +21,15 @@ export let action: ActionFunction = async ({ request }) => {
   let fields = { title, description }
 
   let recipe = await db.recipe.create({
-    data: { ...fields, userId },
+    data: {
+      ...fields,
+      userId,
+      activity: {
+        create: {
+          userId,
+        },
+      },
+    },
   })
 
   return redirect(`/recipes/${recipe.id}`)

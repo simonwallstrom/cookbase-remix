@@ -11,13 +11,32 @@ datasource db {
 }
 
 model User {
-  id           String       @id @default(uuid())
-  createdAt    DateTime     @default(now())
-  updatedAt    DateTime     @updatedAt
-  username     String       @unique
+  id           Int       @id @default(autoincrement())
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+  email        String    @unique
+  username     String    @unique
+  firstName    String?
+  lastName     String?
+  imageUrl     String?
+  bio          String?
   passwordHash String
-  recipes      Recipe[]
-  collections  Collection[]
+  followedBy   Follows[] @relation("follower")
+  following    Follows[] @relation("following")
+
+  recipes     Recipe[]
+  collections Collection[]
+  activity    Activity[]
+}
+
+model Follows {
+  follower    User     @relation("follower", fields: [followerId], references: [id])
+  followerId  Int
+  following   User     @relation("following", fields: [followingId], references: [id])
+  followingId Int
+  createdAt   DateTime @default(now())
+
+  @@id([followerId, followingId])
 }
 
 model Recipe {
@@ -25,19 +44,32 @@ model Recipe {
   createdAt   DateTime     @default(now())
   updatedAt   DateTime     @updatedAt
   title       String
-  description String
-  userId      String
-  user        User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  description String?
+  userId      Int
+  user        User         @relation(fields: [userId], references: [id])
   collections Collection[]
+  activity    Activity[]
 }
 
 model Collection {
-  id          String   @id @default(uuid())
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id          String     @id @default(uuid())
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
   title       String
-  description String
-  userId      String
-  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  description String?
+  userId      Int
+  user        User       @relation(fields: [userId], references: [id])
   recipes     Recipe[]
+  activity    Activity[]
+}
+
+model Activity {
+  id           Int         @id @default(autoincrement())
+  createdAt    DateTime    @default(now())
+  userId       Int
+  user         User        @relation(fields: [userId], references: [id])
+  recipeId     String?
+  recipes      Recipe?     @relation(fields: [recipeId], references: [id])
+  collectionId String?
+  collections  Collection? @relation(fields: [collectionId], references: [id])
 }

@@ -15,7 +15,7 @@ export default function AppLayout() {
       {user ? (
         <nav className="sticky top-0 flex flex-col h-screen px-8 py-5 border-r dark:border-gray-800 w-72">
           <div className="flex-1">
-            <CustomNavLink to="/username">
+            <CustomNavLink to={`/profile/${user.username}`}>
               <div className="flex items-center space-x-3">
                 <div className="flex-shrink-0 w-10 h-10">
                   <img
@@ -25,8 +25,10 @@ export default function AppLayout() {
                   />
                 </div>
                 <div>
-                  <div className="font-medium text-gray-900 dark:text-white text">Simon Wallström</div>
-                  <div className="text-sm font-normal">{user?.username}</div>
+                  <div className="font-medium text-gray-900 dark:text-white text">
+                    {user.firstName} {user.lastName}
+                  </div>
+                  <div className="text-sm font-normal">{user.username}</div>
                 </div>
               </div>
             </CustomNavLink>

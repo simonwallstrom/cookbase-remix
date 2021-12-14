@@ -4,12 +4,12 @@ import { db } from './db.server'
 import { User } from '@prisma/client'
 
 type userData = {
-  username: string
+  email: string
   password: string
 }
 
-export async function login({ username, password }: userData) {
-  let user = await db.user.findUnique({ where: { username } })
+export async function login({ email, password }: userData) {
+  let user = await db.user.findUnique({ where: { email } })
 
   if (!user) return null
 
@@ -37,7 +37,7 @@ let storage = createCookieSessionStorage({
   },
 })
 
-export async function createUserSession(userId: string, redirectTo: string) {
+export async function createUserSession(userId: number, redirectTo: string) {
   let session = await storage.getSession()
   session.set('userId', userId)
 
@@ -56,7 +56,7 @@ export async function getUserId(request: Request) {
   let session = await getUserSession(request)
   let userId = session.get('userId')
 
-  if (!userId || typeof userId !== 'string') return null
+  if (!userId || typeof userId !== 'number') return null
 
   return userId
 }
@@ -64,7 +64,7 @@ export async function getUserId(request: Request) {
 export async function getUser(request: Request): Promise<null | Omit<User, 'passwordHash'>> {
   let userId = await getUserId(request)
 
-  if (typeof userId !== 'string') return null
+  if (typeof userId !== 'number') return null
 
   try {
     let user = await db.user.findUnique({
@@ -96,7 +96,7 @@ export async function logout(request: Request) {
 export async function requireAuth(request: Request, redirectTo: string = new URL(request.url).pathname) {
   let session = await getUserSession(request)
   let userId = session.get('userId')
-  if (!userId || typeof userId !== 'string') {
+  if (!userId || typeof userId !== 'number') {
     let searchParams = new URLSearchParams([['redirectTo', redirectTo]])
     throw redirect(`/login?${searchParams}`)
   }
