@@ -1,5 +1,5 @@
 import { Activity } from '@prisma/client'
-import { Link, LoaderFunction, useLoaderData } from 'remix'
+import { LoaderFunction, useLoaderData } from 'remix'
 import PageHeader from '~/components/PageHeader'
 import { ActivityFeed } from '~/types'
 import { db } from '~/utils/db.server'
@@ -14,13 +14,13 @@ export let loader: LoaderFunction = async () => {
       select: {
         id: true,
         createdAt: true,
-        recipe: {
+        recipes: {
           select: {
             id: true,
             title: true,
           },
         },
-        collection: {
+        collections: {
           select: {
             id: true,
             title: true,
@@ -53,19 +53,19 @@ export default function Activity() {
           {data.activities.map((activity) => (
             <li key={activity.id}>
               <div>{activity.createdAt}</div>
-              {activity.recipe ? (
+              {activity.recipes ? (
                 <div>
                   <div>
                     {activity.user.firstName} {activity.user.lastName} added a new recipe
                   </div>
-                  <h2 className="text-lg">{activity.recipe?.title}</h2>
+                  <h2 className="text-lg">{activity.recipes?.title}</h2>
                 </div>
               ) : (
                 <div>
                   <div>
                     {activity.user.firstName} {activity.user.lastName} added a new collection
                   </div>
-                  <h2 className="text-lg">{activity.collection?.title}</h2>
+                  <h2 className="text-lg">{activity.collections?.title}</h2>
                 </div>
               )}
             </li>

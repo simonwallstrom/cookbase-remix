@@ -26,6 +26,7 @@ model User {
 
   recipes     Recipe[]
   collections Collection[]
+  Tags        Tag[]
   activity    Activity[]
 }
 
@@ -48,6 +49,7 @@ model Recipe {
   userId      Int
   user        User         @relation(fields: [userId], references: [id])
   collections Collection[]
+  tags        Tag[]
   activity    Activity[]
 }
 
@@ -61,6 +63,16 @@ model Collection {
   user        User       @relation(fields: [userId], references: [id])
   recipes     Recipe[]
   activity    Activity[]
+}
+
+model Tag {
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  title     String
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id])
+  recipes   Recipe[]
 }
 
 model Activity {

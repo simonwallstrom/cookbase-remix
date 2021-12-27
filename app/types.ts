@@ -1,6 +1,6 @@
-import { Activity, Collection, Recipe } from '@prisma/client'
+import { Activity, Collection, Recipe, Tag } from '@prisma/client'
 
-export type RecipeWithCollection = {
+export type RecipeWithCollectionAndTags = {
   id: string
   createdAt: Date
   updatedAt: Date
@@ -8,6 +8,7 @@ export type RecipeWithCollection = {
   description: string | null
   userId: number
   collections: Collection[]
+  tags: Tag[]
 }
 
 export type UserWithRecipesAndCollection = {
@@ -22,11 +23,11 @@ export type UserWithRecipesAndCollection = {
 export type ActivityFeed = {
   id: number
   createdAt: Date
-  recipe: {
+  recipes: {
     id: string
     title: string
   } | null
-  collection: {
+  collections: {
     id: string
     title: string
   } | null

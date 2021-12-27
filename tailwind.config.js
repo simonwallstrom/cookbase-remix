@@ -7,8 +7,11 @@ module.exports = {
       colors: {
         gray: colors.zinc,
       },
+      lineHeight: {
+        chill: '1.78571429',
+      },
     },
   },
   variants: {},
-  plugins: [],
+  plugins: [require('@tailwindcss/forms')],
 }
